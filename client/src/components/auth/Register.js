@@ -17,7 +17,7 @@ function validate(values) {
 
 const Register = () => {
   const { values, errs, handleChange, handleSubmit } = useForm(
-    () => handleLogin(),
+    () => handleRegister(),
     validate,
     {
       email: "",
@@ -25,7 +25,7 @@ const Register = () => {
     }
   )
 
-  const handleLogin = () => {
+  const handleRegister = () => {
 
   }
   return (
