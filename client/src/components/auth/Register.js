@@ -1,36 +1,58 @@
 import React from 'react';
 import { Container, Header, Form, Button, Segment } from 'semantic-ui-react';
+import useForm from '../../hooks/useForm';
+
+function validate(values) {
+  let errs = {}
+  let { email='', password='' } = values
+  if (email.length === 0 ){
+    errs.email = 'Email is required'
+  } else if (password.length === 0) {
+    errs.password = "Password is required"
+  } else if (values.password.length < 8) {
+    errs.password = "Password too short"
+  }
+  return errs
+}
 
 const Register = () => {
+  const { values, errs, handleChange, handleSubmit } = useForm(
+    () => handleLogin(),
+    validate,
+    {
+      email: "",
+      password: ""
+    }
+  )
+
+  const handleLogin = () => {
+
+  }
   return (
     <Container>
       <Header>Register</Header>
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Form.Input
           label='Email'
           autoFocus
           required
           name='email'
-          value={email}
+          value={values.email}
           placeholder='Email'
-          onChange={this.handleChange}
+          onChange={e => { handleChange("email", e.target.value)}}
+          error={errs.email ? true : false}
         />
         <Form.Input
           label='Password'
           required
           name='password'
           value={password}
-          placeholder='Password'
-          onChange={this.handleChange}
+          onChange={e => { handleChange("password", e.target.value)}}
+          error={errs.password ? true : false}
         />
-        <Form.Input
-          label='Password Confirmation'
-          required
-          name='password_confirmation'
-          value={password_confirmation}
-          placeholder='Password Confirmation'
-          onChange={this.handleChange}
-        />
+        <Segment textAlign='center' basic>
+          <Button primary type='submit'>Submit</Button>
+        </Segment>
       </Form>
     </Container>
   )
