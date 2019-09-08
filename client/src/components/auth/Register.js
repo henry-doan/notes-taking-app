@@ -46,7 +46,7 @@ const Register = () => {
           label='Password'
           required
           name='password'
-          value={password}
+          value=''
           onChange={e => { handleChange("password", e.target.value)}}
           error={errs.password ? true : false}
         />
