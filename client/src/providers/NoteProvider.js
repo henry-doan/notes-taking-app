@@ -34,10 +34,27 @@ export const NoteConsumer = NoteContext.Consumer;
 
 const NoteProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-    
+  
+  const getNotes = () => {
+    return new Promise((resolve, reject) => {
+      axios.get("/api/notes")
+        .then(res => {
+          dispatch({ type: GET_NOTES, notes: res.data.data })
+          resolve(res)
+        })
+        .catch( err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  }
   
   return (
-    <NoteContext.Provider value={this.state}>
+    <NoteContext.Provider value={{
+      state,
+      dispatch,
+      getNotes: getNotes
+    }}>
       { children }
     </NoteContext.Provider>
   )
