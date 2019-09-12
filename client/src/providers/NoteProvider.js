@@ -6,7 +6,7 @@ const ADD_NOTE = "ADD_NOTE"
 const UPDATE_NOTE = "UPDATE_NOTE"
 const DELETE_NOTE = "DELETE_NOTE" 
 
-const initialState = { notes = [], loading: false, }
+const initialState = { notes = [] }
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -65,9 +65,23 @@ const NoteProvider = ({ children }) => {
 
   const updateNote = (id, note) => {
     return new Promise((resolve, reject) => {
-      axios.post("/api/notes", {id, note})
+      axios.put(`/api/notes/${id}`, {id, note})
         .then(res => {
           dispatch({ type: UPDATE_NOTE, note: res.data.data })
+          resolve(res)
+        })
+        .catch( err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  }
+
+  const deleteNote = (id) => {
+    return new Promise((resolve, reject) => {
+      axios.delete(`/api/notes/${id}`, {id})
+        .then(res => {
+          dispatch({ type: DELETE_NOTE, note: res.data.data })
           resolve(res)
         })
         .catch( err => {
@@ -84,11 +98,11 @@ const NoteProvider = ({ children }) => {
       getNotes: getNotes,
       addNote: addNote,
       updateNote: updateNote,
+      deleteNote: deleteNote
     }}>
       { children }
     </NoteContext.Provider>
   )
-  
 }
 
 export default NoteProvider;
