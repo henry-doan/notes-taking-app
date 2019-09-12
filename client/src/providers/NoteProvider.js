@@ -62,13 +62,28 @@ const NoteProvider = ({ children }) => {
         })
     })
   }
+
+  const updateNote = (id, note) => {
+    return new Promise((resolve, reject) => {
+      axios.post("/api/notes", {id, note})
+        .then(res => {
+          dispatch({ type: UPDATE_NOTE, note: res.data.data })
+          resolve(res)
+        })
+        .catch( err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  }
   
   return (
     <NoteContext.Provider value={{
       state,
       dispatch,
       getNotes: getNotes,
-      addNote: addNote
+      addNote: addNote,
+      updateNote: updateNote,
     }}>
       { children }
     </NoteContext.Provider>
