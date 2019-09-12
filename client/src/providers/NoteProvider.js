@@ -48,12 +48,27 @@ const NoteProvider = ({ children }) => {
         })
     })
   }
+
+  const addNote = (note) => {
+    return new Promise((resolve, reject) => {
+      axios.post("/api/notes", note)
+        .then(res => {
+          dispatch({ type: ADD_NOTE, note: res.data.data })
+          resolve(res)
+        })
+        .catch( err => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  }
   
   return (
     <NoteContext.Provider value={{
       state,
       dispatch,
-      getNotes: getNotes
+      getNotes: getNotes,
+      addNote: addNote
     }}>
       { children }
     </NoteContext.Provider>
