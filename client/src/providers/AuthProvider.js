@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react';
-import axios from 'axios';
+import axios from '../utils/webRequests';
 
 const AuthContext = React.createContext();
 

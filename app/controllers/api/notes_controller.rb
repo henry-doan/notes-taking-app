@@ -1,6 +1,6 @@
 class Api::NotesController < ApplicationController
   def index
-    render json: @current_user.notes.all
+    render json: @current_user.notes
   end
 
   def create
